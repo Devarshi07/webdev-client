@@ -76,7 +76,7 @@ export default function HighlightedBoxLab() {
         borderWidth={8}
         borderRadius={0}
       >
-        <h4>Devarshi Mahajan</h4>
+        <h4>Devarshi Anil Mahajan</h4>
         <p>
          My Three Goals for this Course:
         </p>

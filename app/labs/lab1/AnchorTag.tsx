@@ -8,7 +8,7 @@ export default function AnchorTag() {
         </a>{" "}
         to get dummy text
         <br />
-        <a href="https://github.com/Devarshi07" id="wd-github">
+        <a href="https://github.com/Devarshi07/webdev-client" id="wd-github">
           GitHub
         </a>
 
@@ -20,7 +20,7 @@ export default function AnchorTag() {
         <h4>Github</h4>
 
         <a
-        href="https://github.com/Devarshi07"
+        href="https://github.com/Devarshi07/webdev-client"
         target="_blank"
         rel="noreferrer"
         id="wd-your-github"
