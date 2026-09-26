@@ -61,7 +61,7 @@ The Kambaz application should include a link to navigate back to the landing pag
               <td>
                 <select id="wd-submission-type" defaultValue="Online">
                 <option value="Online">Online</option>
-                <option value="Dropbox">Dropbox</option>
+                <option value="On Paper">On Paper</option>
                 </select>
                 <br />
                 <label>Online Entry Options</label>
