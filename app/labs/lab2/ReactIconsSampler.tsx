@@ -4,7 +4,7 @@ import { AiOutlineDashboard } from "react-icons/ai";
 import { FaBookBible } from "react-icons/fa6";
 import { VscAccount } from "react-icons/vsc";
 import { BsLinkedin } from "react-icons/bs";
-import { BsGithub} from "react-icons/bs";
+import { BsGithub } from "react-icons/bs";
 import { MdHome } from "react-icons/md";
 import { HiAcademicCap } from "react-icons/hi2";
 
@@ -27,7 +27,7 @@ export default function ReactIconsSampler() {
 
       <h3 className="mt-3 text-base font-semibold">My icons</h3>
       <div className="flex gap-3">
-         <BsLinkedin className="text-4xl text-blue-700" />
+        <BsLinkedin className="text-4xl text-blue-700" />
         <BsGithub className="text-4xl text-neutral-800" />
       </div>
     </div>

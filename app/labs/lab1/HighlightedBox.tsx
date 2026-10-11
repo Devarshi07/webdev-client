@@ -42,7 +42,7 @@ export default function HighlightedBoxLab() {
       >
         <h4>Callout</h4>
         <p>
-          This box wraps <strong>any</strong>{" "}children — headings, paragraphs,
+          This box wraps <strong>any</strong> children — headings, paragraphs,
           lists, and more.
         </p>
         <ul>
@@ -77,13 +77,14 @@ export default function HighlightedBoxLab() {
         borderRadius={0}
       >
         <h4>Devarshi Anil Mahajan</h4>
-        <p>
-         My Three Goals for this Course:
-        </p>
+        <p>My Three Goals for this Course:</p>
         <ul>
           <li>Improve my front-end development skills</li>
           <li>Learn to build responsive and user-friendly websites</li>
-          <li>Understand how front-end and back-end technologies talk to each other</li>
+          <li>
+            Understand how front-end and back-end technologies talk to each
+            other
+          </li>
         </ul>
       </HighlightedBox>
     </div>

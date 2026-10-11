@@ -2,41 +2,66 @@ import Link from "next/link";
 
 export default function Profile() {
   return (
-    <div id="wd-profile-screen">
-      <h3>Profile</h3>
+    <div id="wd-profile-screen" className="w-full max-w-sm">
+      <h1 className="mb-3 text-2xl font-semibold">Profile</h1>
       <input
         defaultValue="alice"
         placeholder="username"
-        className="wd-username"
+        aria-label="Username"
+        className="wd-username mb-2 w-full rounded border border-neutral-300 bg-white px-3 py-2"
       />
-      <br />
       <input
         defaultValue="123"
         placeholder="password"
         type="password"
-        className="wd-password"
+        aria-label="Password"
+        className="wd-password mb-2 w-full rounded border border-neutral-300 bg-white px-3 py-2"
       />
-      <br />
-      <input defaultValue="Alice" placeholder="First Name" id="wd-firstname" />
-      <br />
+      <input
+        defaultValue="Alice"
+        placeholder="First Name"
+        id="wd-firstname"
+        aria-label="First Name"
+        className="mb-2 w-full rounded border border-neutral-300 bg-white px-3 py-2"
+      />
       <input
         defaultValue="Wonderland"
         placeholder="Last Name"
         id="wd-lastname"
+        aria-label="Last Name"
+        className="mb-2 w-full rounded border border-neutral-300 bg-white px-3 py-2"
       />
-      <br />
-      <input defaultValue="2000-01-01" type="date" id="wd-dob" />
-      <br />
-      <input defaultValue="alice@wonderland" type="email" id="wd-email" />
-      <br />
-      <select defaultValue="FACULTY" id="wd-role">
+      <input
+        defaultValue="2000-01-01"
+        type="date"
+        id="wd-dob"
+        aria-label="Date of birth"
+        className="mb-2 w-full rounded border border-neutral-300 bg-white px-3 py-2"
+      />
+      <input
+        defaultValue="alice@wonderland"
+        type="email"
+        id="wd-email"
+        aria-label="Email"
+        className="mb-2 w-full rounded border border-neutral-300 bg-white px-3 py-2"
+      />
+      <select
+        defaultValue="FACULTY"
+        id="wd-role"
+        aria-label="Role"
+        className="mb-2 w-full rounded border border-neutral-300 bg-white px-3 py-2"
+      >
         <option value="USER">User</option>
         <option value="ADMIN">Admin</option>
         <option value="FACULTY">Faculty</option>
         <option value="STUDENT">Student</option>
       </select>
-      <br />
-      <Link href="/account/signin">Sign out</Link>
+      <Link
+        href="/account/signin"
+        className="mb-2 block w-full rounded bg-blue-600 px-3 py-2 text-center text-white no-underline"
+      >
+        Sign out
+      </Link>
     </div>
   );
 }
