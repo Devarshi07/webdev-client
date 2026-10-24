@@ -1,0 +1,17 @@
+export default function ArrayIndexAndLength() {
+  const numberArray1 = [1, 2, 3, 4, 5];
+  const length1 = numberArray1.length;
+  const index1 = numberArray1.indexOf(3);
+  const index2 = numberArray1.indexOf(9);
+  const indexOfOne = numberArray1.indexOf(1);
+  return (
+    <div id="wd-array-index-and-length">
+      <h4>Array index and length</h4>
+      length1 = {length1} <br />
+      index1 = {index1} <br />
+      indexOf(9) = {index2} <br />
+      indexOf1 = {indexOfOne} <br />
+      <hr />
+    </div>
+  );
+}
