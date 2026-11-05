@@ -31,7 +31,7 @@ export default function AssignmentEditor() {
       until: "",
     },
   );
-  const canManage = currentUser?.role === "FACULTY";
+  const canManage = !currentUser || currentUser.role === "FACULTY";
   const listUrl = `/courses/${cid}/assignments`;
   if (aid === "new" ? !canManage : !existing) {
     return <Link href={listUrl}>Back to Assignments</Link>;

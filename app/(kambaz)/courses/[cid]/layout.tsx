@@ -21,9 +21,10 @@ export default function CoursesLayout({
   const enrollments = useEnrollmentsStore((state) => state.enrollments);
   if (
     !course ||
-    !enrollments.some(
-      (item) => item.user === currentUser?._id && item.course === courseId,
-    )
+    (currentUser &&
+      !enrollments.some(
+        (item) => item.user === currentUser._id && item.course === courseId,
+      ))
   ) {
     redirect("/dashboard");
   }

@@ -10,7 +10,7 @@ import AssignmentDeleteDialog from "./AssignmentDeleteDialog";
 export default function Assignments() {
   const { cid } = useParams<{ cid: string }>();
   const { currentUser } = useAccountContext();
-  const canManage = currentUser?.role === "FACULTY";
+  const canManage = !currentUser || currentUser.role === "FACULTY";
   const assignments = useAssignmentsStore((state) => state.assignments);
   const deleteAssignment = useAssignmentsStore(
     (state) => state.deleteAssignment,

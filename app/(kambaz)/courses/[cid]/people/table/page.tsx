@@ -15,6 +15,7 @@ export default function PeopleTable() {
   const enroll = useEnrollmentsStore((state) => state.enroll);
   const unenroll = useEnrollmentsStore((state) => state.unenroll);
   const [user, setUser] = useState(emptyUser);
+  const canManage = !currentUser || currentUser.role === "FACULTY";
   const enrolled = db.users.filter((usr) =>
     enrollments.some(
       (enrollment) => enrollment.user === usr._id && enrollment.course === cid,
@@ -22,7 +23,7 @@ export default function PeopleTable() {
   );
   return (
     <div id="wd-people-table" className="overflow-x-auto">
-      {currentUser?.role === "FACULTY" && (
+      {canManage && (
         <div className="mb-3 flex gap-2">
           <select
             aria-label="Person to enroll"
@@ -68,7 +69,7 @@ export default function PeopleTable() {
             <th className="p-2">Role</th>
             <th className="p-2">Last Activity</th>
             <th className="p-2">Total Activity</th>
-            {currentUser?.role === "FACULTY" && (
+            {canManage && (
               <th className="p-2">Actions</th>
             )}
           </tr>
@@ -86,7 +87,7 @@ export default function PeopleTable() {
               <td className="wd-role p-2">{user.role}</td>
               <td className="wd-last-activity p-2">{user.lastActivity}</td>
               <td className="wd-total-activity p-2">{user.totalActivity}</td>
-              {currentUser?.role === "FACULTY" && (
+              {canManage && (
                 <td className="p-2">
                   <button
                     type="button"
