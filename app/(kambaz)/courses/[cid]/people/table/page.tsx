@@ -1,19 +1,64 @@
+"use client";
+import { useState } from "react";
+import { useParams } from "next/navigation";
+import {
+  emptyUser,
+  useAccountContext,
+} from "../../../../account/AccountContext";
+import { useEnrollmentsStore } from "../../../../store/enrollmentsStore";
 import { FaUserCircle } from "react-icons/fa";
 import * as db from "../../../../database";
-export default async function PeopleTable({
-  params,
-}: {
-  params: Promise<{ cid: string }>;
-}) {
-  const { cid } = await params;
-  const { users, enrollments } = db;
-  const enrolled = users.filter((usr) =>
+export default function PeopleTable() {
+  const { cid } = useParams<{ cid: string }>();
+  const { currentUser } = useAccountContext();
+  const enrollments = useEnrollmentsStore((state) => state.enrollments);
+  const enroll = useEnrollmentsStore((state) => state.enroll);
+  const unenroll = useEnrollmentsStore((state) => state.unenroll);
+  const [user, setUser] = useState(emptyUser);
+  const enrolled = db.users.filter((usr) =>
     enrollments.some(
       (enrollment) => enrollment.user === usr._id && enrollment.course === cid,
     ),
   );
   return (
     <div id="wd-people-table" className="overflow-x-auto">
+      {currentUser?.role === "FACULTY" && (
+        <div className="mb-3 flex gap-2">
+          <select
+            aria-label="Person to enroll"
+            className="rounded border border-neutral-300 bg-white px-3 py-1.5 text-sm"
+            value={user._id}
+            onChange={(e) =>
+              setUser(
+                db.users.find((item) => item._id === e.target.value) ??
+                  emptyUser,
+              )
+            }
+          >
+            <option value="">Select a person</option>
+            {db.users
+              .filter(
+                (item) => !enrolled.some((person) => person._id === item._id),
+              )
+              .map((item) => (
+                <option key={item._id} value={item._id}>
+                  {item.firstName} {item.lastName}
+                </option>
+              ))}
+          </select>
+          <button
+            type="button"
+            className="rounded bg-green-600 px-3 py-1.5 text-sm font-medium text-white"
+            disabled={!user._id}
+            onClick={() => {
+              enroll(user._id, cid);
+              setUser(emptyUser);
+            }}
+          >
+            Add Person
+          </button>
+        </div>
+      )}
       <table className="w-full border-collapse text-left text-sm">
         <thead>
           <tr className="border-b border-neutral-300">
@@ -23,6 +68,9 @@ export default async function PeopleTable({
             <th className="p-2">Role</th>
             <th className="p-2">Last Activity</th>
             <th className="p-2">Total Activity</th>
+            {currentUser?.role === "FACULTY" && (
+              <th className="p-2">Actions</th>
+            )}
           </tr>
         </thead>
         <tbody>
@@ -38,6 +86,17 @@ export default async function PeopleTable({
               <td className="wd-role p-2">{user.role}</td>
               <td className="wd-last-activity p-2">{user.lastActivity}</td>
               <td className="wd-total-activity p-2">{user.totalActivity}</td>
+              {currentUser?.role === "FACULTY" && (
+                <td className="p-2">
+                  <button
+                    type="button"
+                    className="rounded bg-red-600 px-2 py-0.5 text-sm font-medium text-white"
+                    onClick={() => unenroll(user._id, cid)}
+                  >
+                    Remove
+                  </button>
+                </td>
+              )}
             </tr>
           ))}
         </tbody>

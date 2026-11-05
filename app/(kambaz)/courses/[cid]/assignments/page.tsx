@@ -1,14 +1,21 @@
+"use client";
+import Link from "next/link";
+import { useState } from "react";
+import { useParams } from "next/navigation";
+import { useAccountContext } from "../../../account/AccountContext";
+import { useAssignmentsStore } from "../../../store/assignmentsStore";
 import { FaPlus, FaSearch } from "react-icons/fa";
 import AssignmentItem from "./AssignmentItem";
-import * as db from "../../../database";
-
-export default async function Assignments({
-  params,
-}: {
-  params: Promise<{ cid: string }>;
-}) {
-  const { cid } = await params;
-  const assignments = db.assignments.filter((assignment) => assignment.course === cid);
+import AssignmentDeleteDialog from "./AssignmentDeleteDialog";
+export default function Assignments() {
+  const { cid } = useParams<{ cid: string }>();
+  const { currentUser } = useAccountContext();
+  const canManage = currentUser?.role === "FACULTY";
+  const assignments = useAssignmentsStore((state) => state.assignments);
+  const deleteAssignment = useAssignmentsStore(
+    (state) => state.deleteAssignment,
+  );
+  const [deleteId, setDeleteId] = useState<string | null>(null);
   return (
     <div id="wd-assignments">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
@@ -21,22 +28,24 @@ export default async function Assignments({
             className="rounded border border-neutral-300 py-1.5 pr-3 pl-9 text-sm"
           />
         </div>
-        <div className="flex gap-2">
-          <button
-            id="wd-add-assignment-group"
-            type="button"
-            className="inline-flex items-center gap-1 rounded border border-neutral-300 bg-white px-3 py-1.5 text-sm"
-          >
-            <FaPlus /> Group
-          </button>
-          <button
-            id="wd-add-assignment"
-            type="button"
-            className="inline-flex items-center gap-1 rounded bg-red-600 px-3 py-1.5 text-sm font-medium text-white"
-          >
-            <FaPlus /> Assignment
-          </button>
-        </div>
+        {canManage && (
+          <div className="flex gap-2">
+            <button
+              id="wd-add-assignment-group"
+              type="button"
+              className="inline-flex items-center gap-1 rounded border border-neutral-300 bg-white px-3 py-1.5 text-sm"
+            >
+              <FaPlus /> Group
+            </button>
+            <Link
+              id="wd-add-assignment"
+              href={`/courses/${cid}/assignments/new`}
+              className="inline-flex items-center gap-1 rounded bg-red-600 px-3 py-1.5 text-sm font-medium text-white"
+            >
+              <FaPlus /> Assignment
+            </Link>
+          </div>
+        )}
       </div>
       <h3
         id="wd-assignments-title"
@@ -52,16 +61,28 @@ export default async function Assignments({
         </button>
       </h3>
       <ul id="wd-assignment-list" className="m-0 list-none p-0">
-        {assignments.map((assignment) => (
-          <AssignmentItem
-            key={assignment._id}
-            cid={cid}
-            aid={assignment._id}
-            title={assignment.title}
-            details={`Multiple Modules | Not available until ${assignment.available} | Due ${assignment.due} | ${assignment.points} pts`}
-          />
-        ))}
+        {assignments
+          .filter((assignment) => assignment.course === cid)
+          .map((assignment) => (
+            <AssignmentItem
+              key={assignment._id}
+              cid={cid}
+              aid={assignment._id}
+              title={assignment.title}
+              onDelete={
+                canManage ? () => setDeleteId(assignment._id) : undefined
+              }
+              details={`Multiple Modules | Not available until ${assignment.available} | Due ${assignment.due} | ${assignment.points} pts`}
+            />
+          ))}
       </ul>
+      <AssignmentDeleteDialog
+        show={deleteId !== null}
+        handleClose={() => setDeleteId(null)}
+        deleteAssignment={() => {
+          if (deleteId) deleteAssignment(cid, deleteId);
+        }}
+      />
     </div>
   );
 }
